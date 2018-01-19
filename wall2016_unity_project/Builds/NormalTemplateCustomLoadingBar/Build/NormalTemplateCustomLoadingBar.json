@@ -1,0 +1,11 @@
+{
+"TOTAL_MEMORY": 268435456,
+"dataUrl": "NormalTemplateCustomLoadingBar.data.unityweb",
+"asmCodeUrl": "NormalTemplateCustomLoadingBar.asm.code.unityweb",
+"asmMemoryUrl": "NormalTemplateCustomLoadingBar.asm.memory.unityweb",
+"asmFrameworkUrl": "NormalTemplateCustomLoadingBar.asm.framework.unityweb",
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F00"
+}

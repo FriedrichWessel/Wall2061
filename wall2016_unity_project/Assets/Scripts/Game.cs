@@ -62,7 +62,7 @@ public class Game : MonoBehaviour {
     public void StartGame()
     {
         _gameRunning = true;
-        UIManager.SetUIToGame();
+        UIManager.TargetGameState = UIManager.GameStates.Ingame;
     }
 
     public void BadBlockMissed()
@@ -70,5 +70,11 @@ public class Game : MonoBehaviour {
         //This function is called by the Destroyer when a Bad Code BLock is missed. 
         CurrentLifeAmount -= 1;
         LifeLost();
+        if(CurrentLifeAmount == 0)
+        {
+            //Game Lost - go to Loss Screen
+            UIManager.TargetGameState = UIManager.GameStates.LostGameScreen;
+            _gameRunning = false; 
+        }
     }
 }

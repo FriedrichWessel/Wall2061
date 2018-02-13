@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4835550227330844}
   - component: {fileID: 23650874268091874}
   - component: {fileID: 102841063754388150}
+  - component: {fileID: 114029953594215784}
   m_Layer: 0
   m_Name: Code (1)
   m_TagString: Untagged
@@ -55,7 +56,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890482511825460}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -4.4083805, y: -1.3743283, z: 0.3668238}
+  m_LocalPosition: {x: 1.168, y: 0, z: 0}
   m_LocalScale: {x: 0.11165418, y: 1, z: 0.48382536}
   m_Children:
   - {fileID: 4835550227330844}
@@ -69,7 +70,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1093218382482448}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -4.69, y: 0, z: 4.9511595}
+  m_LocalPosition: {x: -4.69, y: 0, z: 0}
   m_LocalScale: {x: 0.1113259, y: 0.025484424, z: 0.0123300105}
   m_Children: []
   m_Father: {fileID: 4500401392755434}
@@ -161,7 +162,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 10.000001, y: 0.31, z: 1.41}
-  m_Center: {x: 0, y: 0, z: 4.28}
+  m_Center: {x: 0, y: 0, z: -0.79}
 --- !u!102 &102841063754388150
 TextMesh:
   serializedVersion: 3
@@ -191,6 +192,18 @@ TextMesh:
   m_Color:
     serializedVersion: 2
     rgba: 4280418048
+--- !u!114 &114029953594215784
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1093218382482448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630d05001661b4d4583f380ceef39e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Library: {fileID: 0}
 --- !u!114 &114454397351390854
 MonoBehaviour:
   m_ObjectHideFlags: 1

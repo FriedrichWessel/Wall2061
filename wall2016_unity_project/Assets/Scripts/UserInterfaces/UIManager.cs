@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour {
     public GameUI GameUI = null;
     public MenuUI MenuUI = null;
     public LostGameUI LostGameUI = null;
+    public InformationScreenUI WonGameUI = null;
 
     public GameStates CurrentGameState = GameStates.None;
     public GameStates TargetGameState = GameStates.MainMenu;
@@ -44,7 +45,7 @@ public class UIManager : MonoBehaviour {
                 SetUIToGame();
                 break;
             case GameStates.InformationScreen:
-                throw new NotImplementedException();
+                SetUIToWon();
                 break;
             case GameStates.LostGameScreen:
                 SetUIToLost();
@@ -52,11 +53,20 @@ public class UIManager : MonoBehaviour {
         }
     }
 
+    private void SetUIToWon()
+    {
+        GameUI.gameObject.SetActive(false);
+        MenuUI.gameObject.SetActive(false);
+        LostGameUI.gameObject.SetActive(false);
+        WonGameUI.gameObject.SetActive(true);
+    }
+
     private void SetUIToGame()
     {
         GameUI.gameObject.SetActive(true);
         MenuUI.gameObject.SetActive(false);
         LostGameUI.gameObject.SetActive(false);
+        WonGameUI.gameObject.SetActive(false);
     }
 
     private void SetUIToMenu()
@@ -64,6 +74,7 @@ public class UIManager : MonoBehaviour {
         GameUI.gameObject.SetActive(false);
         MenuUI.gameObject.SetActive(true);
         LostGameUI.gameObject.SetActive(false);
+        WonGameUI.gameObject.SetActive(false);
     }
 
     private void SetUIToLost()
@@ -71,6 +82,7 @@ public class UIManager : MonoBehaviour {
         GameUI.gameObject.SetActive(false);
         MenuUI.gameObject.SetActive(false);
         LostGameUI.gameObject.SetActive(true);
+        WonGameUI.gameObject.SetActive(false);
     }
 
     public void OnLifeLost()

@@ -38,6 +38,7 @@ GameObject:
   - component: {fileID: 4117924393895846}
   - component: {fileID: 23149477408623322}
   - component: {fileID: 102872997577500704}
+  - component: {fileID: 114795584965846372}
   m_Layer: 0
   m_Name: Code
   m_TagString: Untagged
@@ -72,7 +73,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1812362535733488}
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.531, y: -0, z: 4.766}
+  m_LocalPosition: {x: -0.531, y: 0, z: 0}
   m_LocalScale: {x: 0.012427364, y: 0.025492018, z: 0.012333693}
   m_Children: []
   m_Father: {fileID: 4500401392755434}
@@ -85,7 +86,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1780565619532286}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0, z: 4.49}
+  m_LocalPosition: {x: 0, y: -0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4500401392755434}
@@ -98,7 +99,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890482511825460}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -5.8289213, y: -1.2847449, z: 0.093832135}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 0.48382536}
   m_Children:
   - {fileID: 4139110114576080}
@@ -192,7 +193,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1.18, y: 5, z: 1.87}
-  m_Center: {x: 0, y: 0, z: 3.93}
+  m_Center: {x: 0, y: 0, z: -0.88}
 --- !u!65 &65768815773569474
 BoxCollider:
   m_ObjectHideFlags: 1
@@ -204,7 +205,7 @@ BoxCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 0, z: -0.47}
 --- !u!102 &102872997577500704
 TextMesh:
   serializedVersion: 3
@@ -268,3 +269,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ec53c834f0e58a499a2c8fcd2e0f468, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114795584965846372
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1812362535733488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 630d05001661b4d4583f380ceef39e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Library: {fileID: 0}

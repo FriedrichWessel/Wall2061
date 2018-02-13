@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GUIBase : MonoBehaviour
 {
+    public Game GameManager;
+
     // Use this for initialization
     void Start()
     {

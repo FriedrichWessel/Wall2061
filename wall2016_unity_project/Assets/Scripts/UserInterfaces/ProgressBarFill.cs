@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthbarFill : MonoBehaviour {
+public class ProgressBarFill : MonoBehaviour {
 
     public GameObject FillObject = null;
 

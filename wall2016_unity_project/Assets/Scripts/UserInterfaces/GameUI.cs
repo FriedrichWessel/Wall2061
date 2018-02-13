@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class GameUI : GUIBase {
 
-    public HealthbarFill Healthbar; 
+    public ProgressBarFill Healthbar;
+    public ProgressBarFill HackProgress;
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +14,6 @@ public class GameUI : GUIBase {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        HackProgress.TargetFillState = (1/GameManager.HackGoalTime) * GameManager.CurrentHackTime;
 	}
 }

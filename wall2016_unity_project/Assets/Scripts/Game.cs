@@ -10,6 +10,9 @@ public class Game : MonoBehaviour {
     public int MaxLifeAmount = 5;
     public int CurrentLifeAmount = 5;
 
+    public float HackGoalTime = 20f;
+    public float CurrentHackTime = 0f;
+
     private float _spawnTimer = 0;
     private bool _gameRunning = false;
 
@@ -24,8 +27,16 @@ public class Game : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-
+        if(CurrentHackTime >= HackGoalTime)
+        {
+            UIManager.TargetGameState = UIManager.GameStates.InformationScreen;
+            WinGame();
+        }else
+        {
+            CurrentHackTime += Time.deltaTime;
+        }
     }
+
 
     public void StartGame()
     {
@@ -43,9 +54,19 @@ public class Game : MonoBehaviour {
         {
             //Game Lost - go to Loss Screen
             UIManager.TargetGameState = UIManager.GameStates.LostGameScreen;
-            _gameRunning = false;
-            Spawner.StopSpawning();
+            StopGame();
         }
+    }
+
+    private void WinGame()
+    {
+        StopGame();
+    }
+
+    private void StopGame()
+    {
+        _gameRunning = false;
+        Spawner.StopSpawning();
     }
 
 }

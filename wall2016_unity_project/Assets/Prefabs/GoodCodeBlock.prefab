@@ -20,9 +20,11 @@ GameObject:
   m_Component:
   - component: {fileID: 4500401392755434}
   - component: {fileID: 33548579849693428}
-  - component: {fileID: 64741991097670532}
   - component: {fileID: 23314449126181124}
   - component: {fileID: 114454397351390854}
+  - component: {fileID: 54408149791026024}
+  - component: {fileID: 65867875424282758}
+  - component: {fileID: 114649959679639728}
   m_Layer: 0
   m_Name: GoodCodeBlock
   m_TagString: Untagged
@@ -37,7 +39,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890482511825460}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -26.051609, y: 43.344147, z: -58.340614}
+  m_LocalPosition: {x: -4.4083805, y: -1.3743283, z: 0.3668238}
   m_LocalScale: {x: 0.11165418, y: 1, z: 0.48382536}
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,20 +86,33 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890482511825460}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
---- !u!64 &64741991097670532
-MeshCollider:
+--- !u!54 &54408149791026024
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1890482511825460}
+  serializedVersion: 2
+  m_Mass: 0.0000001
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!65 &65867875424282758
+BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1890482511825460}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Convex: 0
-  m_InflateMesh: 0
-  m_SkinWidth: 0.01
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  m_Size: {x: 10.000001, y: 0.31, z: 1.41}
+  m_Center: {x: 0, y: 0, z: 4.28}
 --- !u!114 &114454397351390854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -110,3 +125,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MovingSpeed: {x: 0, y: 0, z: -0.1}
+--- !u!114 &114649959679639728
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1890482511825460}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a95d7e1586daf54dac1ca3cc7401b68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -24,8 +24,11 @@ public class DestroyObjects : MonoBehaviour {
             {
                 //We got a bad Code Block, let the Game Manager know!
                 GameManager.BadBlockMissed();
+                GameObject.Destroy(other.transform.parent.gameObject);
+            }else
+            {
+                GameObject.Destroy(other.gameObject);
             }
-            GameObject.Destroy(other.gameObject);
         }
     }
 }

@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class ScoreCodeBlock : MonoBehaviour
 {
-    private GameObject ParentObject; 
+    private GameObject ParentObject;
+    public GameObject DestroyFx; 
 
     // Use this for initialization
     void Start()
@@ -27,6 +28,7 @@ public class ScoreCodeBlock : MonoBehaviour
     {
 
         ParentObject.SetActive(false);
+        Instantiate(DestroyFx, this.transform.position, new Quaternion());
         GameObject.Destroy(ParentObject);
     }
 

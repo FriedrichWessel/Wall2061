@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ProgressBarFill : MonoBehaviour {
+public class ProgressBarFillWithAnimation : MonoBehaviour
+{
 
-    public Image FillObject = null;
+    public Animation FillAnimation = null;
 
     public float TargetFillState = 1f;
     private float CurrentFillState = 1f;
@@ -13,17 +14,20 @@ public class ProgressBarFill : MonoBehaviour {
     private float MaxValue;
     private float MinValue = 0f;
 
-	// Use this for initialization
-	void Start () {
-        MaxValue = this.GetComponentInParent<RectTransform>().rect.width;
+    // Use this for initialization
+    void Start()
+    {
+        MaxValue = FillAnimation.clip.length;
         CurrentFillState = TargetFillState;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    [ExecuteInEditMode]
+    void Update()
+    {
         CurrentFillState = TargetFillState;
 
-        FillObject.fillAmount = TargetFillState;
+        FillAnimation.clip.SampleAnimation(FillAnimation.gameObject, MaxValue * TargetFillState);
 
         //FillObject.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal,MaxValue * TargetFillState); 
     }

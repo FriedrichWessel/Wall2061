@@ -28,6 +28,9 @@ public class CodeSnippetLibrary : MonoBehaviour {
         "Init()",
         "Exit()",
         "Meth4()",
+        "Visual",
+        "Basic()",
+        "OnGUI()"
     });
 
 

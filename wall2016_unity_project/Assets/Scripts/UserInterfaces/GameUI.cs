@@ -5,7 +5,7 @@ using UnityEngine;
 public class GameUI : GUIBase {
 
     public ProgressBarFill Healthbar;
-    public ProgressBarFill HackProgress;
+    public ProgressBarFillWithAnimation HackProgress;
 
 	// Use this for initialization
 	void Start () {

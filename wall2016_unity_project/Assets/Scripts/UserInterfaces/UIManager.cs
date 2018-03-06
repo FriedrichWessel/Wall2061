@@ -10,6 +10,7 @@ public class UIManager : MonoBehaviour {
     public MenuUI MenuUI = null;
     public LostGameUI LostGameUI = null;
     public InformationScreenUI WonGameUI = null;
+    public IntroUI IntroUI = null;
 
     public GameStates CurrentGameState = GameStates.None;
     public GameStates TargetGameState = GameStates.MainMenu;
@@ -20,7 +21,8 @@ public class UIManager : MonoBehaviour {
         MainMenu, 
         Ingame, 
         InformationScreen,
-        LostGameScreen
+        LostGameScreen,
+        IntroScreen
     }
 
 	// Use this for initialization
@@ -50,7 +52,19 @@ public class UIManager : MonoBehaviour {
             case GameStates.LostGameScreen:
                 SetUIToLost();
                 break;
+            case GameStates.IntroScreen:
+                SetUIToIntro();
+                break;
         }
+    }
+
+    private void SetUIToIntro()
+    {
+        GameUI.gameObject.SetActive(false);
+        MenuUI.gameObject.SetActive(false);
+        LostGameUI.gameObject.SetActive(false);
+        WonGameUI.gameObject.SetActive(false);
+        IntroUI.gameObject.SetActive(true);
     }
 
     private void SetUIToWon()
@@ -59,6 +73,7 @@ public class UIManager : MonoBehaviour {
         MenuUI.gameObject.SetActive(false);
         LostGameUI.gameObject.SetActive(false);
         WonGameUI.gameObject.SetActive(true);
+        IntroUI.gameObject.SetActive(false);
     }
 
     private void SetUIToGame()
@@ -67,6 +82,7 @@ public class UIManager : MonoBehaviour {
         MenuUI.gameObject.SetActive(false);
         LostGameUI.gameObject.SetActive(false);
         WonGameUI.gameObject.SetActive(false);
+        IntroUI.gameObject.SetActive(false);
     }
 
     private void SetUIToMenu()
@@ -75,6 +91,7 @@ public class UIManager : MonoBehaviour {
         MenuUI.gameObject.SetActive(true);
         LostGameUI.gameObject.SetActive(false);
         WonGameUI.gameObject.SetActive(false);
+        IntroUI.gameObject.SetActive(false);
     }
 
     private void SetUIToLost()
@@ -83,6 +100,7 @@ public class UIManager : MonoBehaviour {
         MenuUI.gameObject.SetActive(false);
         LostGameUI.gameObject.SetActive(true);
         WonGameUI.gameObject.SetActive(false);
+        IntroUI.gameObject.SetActive(false);
     }
 
     public void OnLifeLost()

@@ -6,6 +6,8 @@ using UnityEngine;
 public class Game : MonoBehaviour {
     public UIManager UIManager;
     public SpawnManager Spawner;
+    public float IntroShowDuration = 5.0f;
+    public float GameStartDelay = 2.0f;
 
     public int MaxLifeAmount = 5;
     public int CurrentLifeAmount = 5;
@@ -33,15 +35,30 @@ public class Game : MonoBehaviour {
             WinGame();
         }else
         {
-            CurrentHackTime += Time.deltaTime;
+            if(_gameRunning) CurrentHackTime += Time.deltaTime;
         }
     }
 
 
     public void StartGame()
     {
-        _gameRunning = true;
+        //Show Intro, then start game
+        UIManager.TargetGameState = UIManager.GameStates.IntroScreen;
+
+        StartCoroutine("InitializeGame");
+    }
+
+    public IEnumerator InitializeGame()
+    {
+        yield return new WaitForSeconds(IntroShowDuration);
         UIManager.TargetGameState = UIManager.GameStates.Ingame;
+        yield return new WaitForSeconds(GameStartDelay);
+        StartSpawning();
+    }
+
+    public void StartSpawning()
+    {
+        _gameRunning = true;
         Spawner.StartSpawner();
     }
 

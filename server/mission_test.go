@@ -73,11 +73,6 @@ func TestToJsonShouldReturnCurrentMissionAsJson(t *testing.T) {
 	originalMission.RegisterLocation(&location1)
 	originalMission.RegisterLocation(&location2)
 	missionJSON, _ := json.Marshal(originalMission)
-	secMission := NewSerializedMission()
-	err := json.Unmarshal(missionJSON, &secMission)
-	if err != nil {
-		println(err.Error())
-	}
 	compJson := `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
 	if string(missionJSON) != compJson {
 		t.Errorf("Json is not matching expected:\n %s \n got:\n %s", compJson, missionJSON)
@@ -85,18 +80,21 @@ func TestToJsonShouldReturnCurrentMissionAsJson(t *testing.T) {
 }
 
 func TestFromJsonShouldLoadMission(t *testing.T) {
-	/*compJson := `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
+	compJson := `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
 	mission := NewMission()
 	error := json.Unmarshal([]byte(compJson), &mission)
 	if error != nil {
 		println(error.Error())
 	}
-	for key, loc := range mission.GetLocations() {
-		locString, _ := json.Marshal(loc)
-		println(key + ":" + string(locString))
-	}
-	_, found := mission.GetLocation("Location1")
-	if !found {
+	loc1, foundLoc1 := mission.GetLocation("Location1")
+	if !foundLoc1 {
 		t.Errorf("First location is not unmarshaled correct")
-	}*/
+	}
+	if loc1.GetHackAttemptsForUserId("User1") != 1 {
+		t.Errorf("Hack attempts for loc1 are not unmarshaled correct")
+	}
+	_, foundLoc2 := mission.GetLocation("Location2")
+	if !foundLoc2 {
+		t.Errorf("Second location is not unmarshaled correct")
+	}
 }

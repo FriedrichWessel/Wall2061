@@ -60,3 +60,15 @@ func (mission Mission) GetLocation(locationID string) (location ILocation, found
 	location, found = mission.Locations[locationID]
 	return location, found
 }
+
+func (mission *Mission) UnmarshalJSON(bytes []byte) error {
+	secMission := NewSerializedMission()
+	err := json.Unmarshal(bytes, &secMission)
+	if err != nil {
+		return err
+	}
+	for _, loc := range secMission.Locations {
+		mission.RegisterLocation(&loc)
+	}
+	return nil
+}

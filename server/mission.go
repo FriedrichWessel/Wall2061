@@ -14,6 +14,14 @@ type Mission struct {
 	Locations map[string]ILocation
 }
 
+type SerializedMission struct {
+	Locations map[string]Location
+}
+
+func NewSerializedMission() (m SerializedMission) {
+	m.Locations = make(map[string]Location)
+	return m
+}
 func NewMission() (m Mission) {
 	m.Locations = make(map[string]ILocation)
 	return m

@@ -73,8 +73,7 @@ func TestToJsonShouldReturnCurrentMissionAsJson(t *testing.T) {
 	originalMission.RegisterLocation(&location1)
 	originalMission.RegisterLocation(&location2)
 	missionJSON, _ := json.Marshal(originalMission)
-	//missionJson := originalMission.ToJson()
-	secMission := NewMission()
+	secMission := NewSerializedMission()
 	err := json.Unmarshal(missionJSON, &secMission)
 	if err != nil {
 		println(err.Error())

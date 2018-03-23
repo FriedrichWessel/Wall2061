@@ -59,7 +59,7 @@ func (control MissionControl) StartMissionControl() {
 	http.HandleFunc(control.routes.queryLocations, control.getRegisteredLocations)
 	http.HandleFunc(control.routes.saveMission, control.saveMission)
 	http.HandleFunc(control.routes.loadMission, control.loadMission)
-	err := http.ListenAndServe(":9090", nil)
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		log.Fatal("Error on listen&Server", err)
 	}
@@ -122,6 +122,7 @@ func (control *MissionControl) loadMission(writer http.ResponseWriter, request *
 
 func loadLocationAction(request *http.Request) locationAction {
 	decoder := json.NewDecoder(request.Body)
+
 	var action locationAction
 	err := decoder.Decode(&action)
 	if err != nil {

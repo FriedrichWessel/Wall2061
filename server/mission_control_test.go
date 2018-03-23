@@ -2,11 +2,15 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"strings"
 	"testing"
 )
+
+var TestMissionJSON = `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
 
 func TestNewMissionControlShouldActivateGivenMission(t *testing.T) {
 	dummyMission := &MockMission{&MockLocation{0, 0, "L1", make(map[string]int)}}
@@ -91,6 +95,52 @@ func TestQueryRegisteredLocationsShouldReturnJsonList(t *testing.T) {
 
 }
 
+func TestSaveMissionShouldSaveMissionToFile(t *testing.T) {
+	testMission := NewMission()
+	json.Unmarshal([]byte(TestMissionJSON), &testMission)
+	testControl := NewMissionControl(testMission)
+	server := httptest.NewServer(http.HandlerFunc(testControl.saveMission))
+	defer server.Close()
+	fileAction := fileAction{"mainMission.mf"}
+	payload, _ := json.Marshal(&fileAction)
+	reader := strings.NewReader(string(payload))
+	resp, err := http.Post(server.URL+testControl.routes.saveMission, "application/json", reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if resp.StatusCode != 200 {
+		t.Fatalf("Received non 200 status code: %d", resp.StatusCode)
+	}
+}
+
+func TestLaodMissionFromFileShouldLoadMission(t *testing.T) {
+	action := fileAction{"mainMission.mf"}
+	storeMission := NewMission()
+	json.Unmarshal([]byte(TestMissionJSON), &storeMission)
+	file, _ := os.Create(action.FileName)
+	storeMission.Save(action.FileName, file)
+
+	var testMission = NewMission()
+	testControl := NewMissionControl(testMission)
+
+	server := httptest.NewServer(http.HandlerFunc(testControl.loadMission))
+	defer server.Close()
+
+	payload, _ := json.Marshal(&action)
+	reader := strings.NewReader(string(payload))
+	resp, err := http.Post(server.URL+testControl.routes.loadMission, "application/json", reader)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if resp.StatusCode != 200 {
+		t.Fatalf("Received non 200 status code: %d", resp.StatusCode)
+	}
+	_, found := testControl.activeMission.GetLocation("Location1")
+	if !found {
+		t.Errorf("Location1 was not loaded correctly")
+	}
+}
+
 type MockMission struct {
 	mockedLocation ILocation
 }
@@ -103,4 +153,9 @@ func (m MockMission) GetLocations() map[string]ILocation {
 	var locations = make(map[string]ILocation)
 	locations[m.mockedLocation.GetId()] = m.mockedLocation
 	return locations
+}
+
+func (m MockMission) Save(fileName string, fileWriter io.Writer) {}
+func (m MockMission) Load(fileName string, fileReader IFileReader) (loadedMission Mission) {
+	return loadedMission
 }

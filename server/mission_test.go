@@ -73,16 +73,14 @@ func TestToJsonShouldReturnCurrentMissionAsJson(t *testing.T) {
 	originalMission.RegisterLocation(&location1)
 	originalMission.RegisterLocation(&location2)
 	missionJSON, _ := json.Marshal(originalMission)
-	compJson := `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
-	if string(missionJSON) != compJson {
-		t.Errorf("Json is not matching expected:\n %s \n got:\n %s", compJson, missionJSON)
+	if string(missionJSON) != TestMissionJSON {
+		t.Errorf("Json is not matching expected:\n %s \n got:\n %s", TestMissionJSON, missionJSON)
 	}
 }
 
 func TestFromJsonShouldLoadMission(t *testing.T) {
-	compJson := `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
 	mission := NewMission()
-	error := json.Unmarshal([]byte(compJson), &mission)
+	error := json.Unmarshal([]byte(TestMissionJSON), &mission)
 	if error != nil {
 		println(error.Error())
 	}
@@ -97,4 +95,52 @@ func TestFromJsonShouldLoadMission(t *testing.T) {
 	if !foundLoc2 {
 		t.Errorf("Second location is not unmarshaled correct")
 	}
+}
+
+func TestSaveToFileShouldSaveMissionToNamedFile(t *testing.T) {
+	mission := NewMission()
+	json.Unmarshal([]byte(TestMissionJSON), &mission)
+	var writer MockWriter
+	mission.Save("TestMissionFile.mf", &writer)
+	if writer.WriteCalls < 1 {
+		t.Errorf("File writer was not called")
+	}
+	marshaledMission, _ := json.Marshal(mission)
+	if string(writer.WriteData) != string(marshaledMission) {
+		t.Errorf("written data does not match. Expected \n%s\nGot\n%s", string(marshaledMission), string(writer.WriteData))
+	}
+}
+
+func TestLoadMissionFromFileShouldLoadMission(t *testing.T) {
+	mission := NewMission()
+	var reader MockReader
+	mission = mission.Load("testFile", &reader)
+	loc, found := mission.GetLocation("Location1")
+	if !found {
+		t.Errorf("Location1 was not loaded correct from file")
+	}
+	if loc.GetHackAttemptsForUserId("User1") != 1 {
+		t.Errorf("Hack Attempts for User1 loaded incorrect")
+	}
+}
+
+type MockWriter struct {
+	WriteCalls int
+	WriteData  []byte
+}
+
+func (m *MockWriter) Write(data []byte) (bytesWritten int, err error) {
+	m.WriteCalls++
+	m.WriteData = data
+	return 0, nil
+}
+
+type MockReader struct {
+	ReadCalls int
+}
+
+func (m *MockReader) ReadFile(fileName string) (content []byte, err error) {
+	m.ReadCalls++
+	content = []byte(TestMissionJSON)
+	return content, nil
 }

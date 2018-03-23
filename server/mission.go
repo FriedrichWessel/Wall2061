@@ -2,12 +2,14 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
+	"io"
 )
 
 type IMission interface {
 	GetLocation(locationId string) (location ILocation, found bool)
 	GetLocations() map[string]ILocation
+	Save(fileName string, fileWriter io.Writer)
+	Load(fileName string, fileReader IFileReader) Mission
 }
 
 type Mission struct {
@@ -32,22 +34,6 @@ func NewMissionFromJson(json string) (m Mission) {
 	return m
 }
 
-func (mission Mission) ToJson() string {
-	resultJSON := ""
-	for key, loc := range mission.GetLocations() {
-		jsonLoc, _ := json.Marshal(loc)
-		if resultJSON != "" {
-			resultJSON += fmt.Sprintf(",\"%s\": %s", key, string(jsonLoc))
-		} else {
-			resultJSON += "{\"locations\": {"
-			resultJSON += fmt.Sprintf("\"%s\": %s", key, string(jsonLoc))
-		}
-
-	}
-	resultJSON += "}}"
-	return resultJSON
-}
-
 func (mission Mission) RegisterLocation(location ILocation) {
 	mission.Locations[location.GetId()] = location
 }
@@ -67,8 +53,27 @@ func (mission *Mission) UnmarshalJSON(bytes []byte) error {
 	if err != nil {
 		return err
 	}
-	for _, loc := range secMission.Locations {
+	for key, _ := range secMission.Locations {
+		loc := secMission.Locations[key]
 		mission.RegisterLocation(&loc)
 	}
 	return nil
+}
+
+func (mission Mission) Save(fileName string, fileWriter io.Writer) {
+	marshaledMission, _ := json.Marshal(mission)
+	fileWriter.Write(marshaledMission)
+}
+
+func (mission Mission) Load(fileName string, fileReader IFileReader) Mission {
+	content, fErr := fileReader.ReadFile(fileName)
+	if fErr != nil {
+		panic(fErr)
+	}
+	newMission := NewMission()
+	err := json.Unmarshal(content, &newMission)
+	if err != nil {
+		panic(err)
+	}
+	return newMission
 }

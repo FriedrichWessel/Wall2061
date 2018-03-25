@@ -76,9 +76,10 @@ func (control *MissionControl) attackLocation(writer http.ResponseWriter, reques
 	writer.WriteHeader(200)
 	if found {
 		location.StartAttack(action.UserID)
-	} else {
-		writer.Write([]byte(fmt.Sprint("Location to attack: %s, does not exists", action.LocationID)))
+		control.activeMission = control.activeMission.UpdateLocation(location)
 	}
+	writeCurrentLocationListAsAnswer(writer, control.activeMission)
+	printMissionDump("AttackLocation", control.activeMission)
 }
 
 func (control *MissionControl) finishAttackSuccessfull(writer http.ResponseWriter, request *http.Request) {
@@ -87,9 +88,9 @@ func (control *MissionControl) finishAttackSuccessfull(writer http.ResponseWrite
 	writer.WriteHeader(200)
 	if found {
 		location.FinishAttackSuccessfull(action.UserID)
-	} else {
-		writer.Write([]byte(fmt.Sprint("Location to finish: %s, does not exists", action.LocationID)))
+		control.activeMission = control.activeMission.UpdateLocation(location)
 	}
+	writeCurrentLocationListAsAnswer(writer, control.activeMission)
 	printMissionDump("FinishAttack", control.activeMission)
 }
 
@@ -112,11 +113,8 @@ func (control *MissionControl) saveMission(writer http.ResponseWriter, request *
 func (control *MissionControl) loadMission(writer http.ResponseWriter, request *http.Request) {
 	action := loadFileAction(request)
 	fileReader := FileReader{}
-	writer.Write([]byte(fmt.Sprint("Mission %s loaded successfull", action.FileName)))
-
 	control.activeMission = control.activeMission.Load(action.FileName, fileReader)
-	marshaledMission, _ := json.Marshal(control.activeMission)
-	writer.Write(marshaledMission)
+	writeCurrentLocationListAsAnswer(writer, control.activeMission)
 	printMissionDump("Load Mission", control.activeMission)
 }
 
@@ -141,6 +139,11 @@ func loadFileAction(request *http.Request) (result fileAction) {
 	}
 	defer request.Body.Close()
 	return action
+}
+
+func writeCurrentLocationListAsAnswer(writer http.ResponseWriter, mission IMission) {
+	marshaledMission, _ := json.Marshal(mission.GetLocations())
+	writer.Write(marshaledMission)
 }
 
 func printMissionDump(action string, m IMission) {

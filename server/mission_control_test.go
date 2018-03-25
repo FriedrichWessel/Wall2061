@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -11,6 +12,7 @@ import (
 )
 
 var TestMissionJSON = `{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}`
+var TestLocationsJSON = `{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}`
 
 func TestNewMissionControlShouldActivateGivenMission(t *testing.T) {
 	dummyMission := &MockMission{&MockLocation{0, 0, "L1", make(map[string]int)}}
@@ -40,6 +42,12 @@ func TestStartAttackShouldStartAttackOnLocation(t *testing.T) {
 	}
 	if dummyLocation.StartAttackCalled != 1 {
 		t.Errorf("Dummy location should have received 1 attack but it was %d", dummyLocation.StartAttackCalled)
+	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	locations := make(map[string]Location)
+	unmarshalErr := json.Unmarshal(body, &locations)
+	if unmarshalErr != nil {
+		t.Errorf("Error on unmarshal body to location list %s\ngot json: %s", unmarshalErr.Error(), string(body))
 	}
 }
 
@@ -113,7 +121,7 @@ func TestSaveMissionShouldSaveMissionToFile(t *testing.T) {
 	}
 }
 
-func TestLaodMissionFromFileShouldLoadMission(t *testing.T) {
+func TestRequestLoadMissionFromFileShouldLoadMission(t *testing.T) {
 	action := fileAction{"mainMission.mf"}
 	storeMission := NewMission()
 	json.Unmarshal([]byte(TestMissionJSON), &storeMission)
@@ -139,6 +147,10 @@ func TestLaodMissionFromFileShouldLoadMission(t *testing.T) {
 	if !found {
 		t.Errorf("Location1 was not loaded correctly")
 	}
+	body, _ := ioutil.ReadAll(resp.Body)
+	if string(body) != TestLocationsJSON {
+		t.Errorf("Wrong response on LoadMission: expected: \n%s\ngot:\n%s", TestLocationsJSON, string(body))
+	}
 }
 
 type MockMission struct {
@@ -156,6 +168,9 @@ func (m MockMission) GetLocations() map[string]ILocation {
 }
 
 func (m MockMission) Save(fileName string, fileWriter io.Writer) {}
+func (m MockMission) UpdateLocation(loc ILocation) Mission {
+	return NewMission()
+}
 func (m MockMission) Load(fileName string, fileReader IFileReader) (loadedMission Mission) {
 	return loadedMission
 }

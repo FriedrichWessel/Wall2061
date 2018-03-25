@@ -14,6 +14,17 @@ func TestRegisterLocationShouldAddLocationToMission(t *testing.T) {
 	}
 }
 
+func TestUpdateLocationShouldAddLocationToMission(t *testing.T) {
+	testMission := NewMission()
+	testLocation := NewLocation("Test")
+	testMission.RegisterLocation(&testLocation)
+	testLocation.HackAttempts["TestUser"] = 1
+	testMission = testMission.UpdateLocation(&testLocation)
+	if testMission.Locations[testLocation.GetId()].GetHackAttemptsForUserId("TestUser") != testLocation.HackAttempts["TestUser"] {
+		t.Errorf("Location was not hacked by User 1")
+	}
+}
+
 func TestGetLocationShouldReturnMatchingLocation(t *testing.T) {
 	testMission := NewMission()
 	testLocation1 := &MockLocation{0, 0, "L1", make(map[string]int)}

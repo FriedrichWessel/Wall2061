@@ -10,6 +10,7 @@ type IMission interface {
 	GetLocations() map[string]ILocation
 	Save(fileName string, fileWriter io.Writer)
 	Load(fileName string, fileReader IFileReader) Mission
+	UpdateLocation(location ILocation) Mission
 }
 
 type Mission struct {
@@ -47,17 +48,9 @@ func (mission Mission) GetLocation(locationID string) (location ILocation, found
 	return location, found
 }
 
-func (mission *Mission) UnmarshalJSON(bytes []byte) error {
-	secMission := NewSerializedMission()
-	err := json.Unmarshal(bytes, &secMission)
-	if err != nil {
-		return err
-	}
-	for key, _ := range secMission.Locations {
-		loc := secMission.Locations[key]
-		mission.RegisterLocation(&loc)
-	}
-	return nil
+func (mission Mission) UpdateLocation(location ILocation) Mission {
+	mission.Locations[location.GetId()] = location
+	return mission
 }
 
 func (mission Mission) Save(fileName string, fileWriter io.Writer) {
@@ -76,4 +69,17 @@ func (mission Mission) Load(fileName string, fileReader IFileReader) Mission {
 		panic(err)
 	}
 	return newMission
+}
+
+func (mission *Mission) UnmarshalJSON(bytes []byte) error {
+	secMission := NewSerializedMission()
+	err := json.Unmarshal(bytes, &secMission)
+	if err != nil {
+		return err
+	}
+	for key, _ := range secMission.Locations {
+		loc := secMission.Locations[key]
+		mission.RegisterLocation(&loc)
+	}
+	return nil
 }

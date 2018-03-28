@@ -86,4 +86,9 @@ public class Game : MonoBehaviour {
         Spawner.StopSpawning();
     }
 
+    public void SetInformation(string InfoID)
+    {
+        UIManager.WonGameUI.SetInformation(InfoID);
+    }
+
 }

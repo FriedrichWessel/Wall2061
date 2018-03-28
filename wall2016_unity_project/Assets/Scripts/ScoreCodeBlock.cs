@@ -26,9 +26,10 @@ public class ScoreCodeBlock : MonoBehaviour
 
     public void ScoreBlock()
     {
-
+        
         ParentObject.SetActive(false);
-        Instantiate(DestroyFx, this.transform.position, new Quaternion());
+        GameObject particleSys = Instantiate(DestroyFx, this.transform.position, new Quaternion());
+        particleSys.transform.SetPositionAndRotation(this.transform.position, new Quaternion());
         GameObject.Destroy(ParentObject);
     }
 

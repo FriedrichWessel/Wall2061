@@ -6,6 +6,8 @@ using UnityEngine;
 public class Game : MonoBehaviour {
     public UIManager UIManager;
     public SpawnManager Spawner;
+    public ServerConnection Connection; 
+
     public float IntroShowDuration = 5.0f;
     public float GameStartDelay = 2.0f;
 
@@ -21,10 +23,17 @@ public class Game : MonoBehaviour {
     public delegate void LifeLostEvent(); 
     public event LifeLostEvent LifeLost = () => { };
 
+    public string UserID;
+    public bool UserIsHacker = false;
+    private bool HackerStatusReceived = false;
+    private string LocationID = "Location1";
+
 	// Use this for initialization
 	void Start () {
         CurrentLifeAmount = MaxLifeAmount;
-	}
+
+        UserID = SystemInfo.deviceUniqueIdentifier;
+    }
 
     // Update is called once per frame
     void Update()
@@ -50,10 +59,45 @@ public class Game : MonoBehaviour {
 
     public IEnumerator InitializeGame()
     {
+        GetHackerStatusOfPlayer();
         yield return new WaitForSeconds(IntroShowDuration);
-        UIManager.TargetGameState = UIManager.GameStates.Ingame;
-        yield return new WaitForSeconds(GameStartDelay);
-        StartSpawning();
+        /*while (!HackerStatusReceived)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }*/
+        if (UserIsHacker)
+        {
+            //Go to tracking state
+            LoseGame();
+        }
+        else
+        {
+            //Start game normally. 
+            UIManager.TargetGameState = UIManager.GameStates.Ingame;
+            yield return new WaitForSeconds(GameStartDelay);
+            StartSpawning();
+        }
+    }
+
+    private IEnumerator GetHackerStatusOfPlayer()
+    {
+        yield return Connection.GetLocations(data =>
+        {
+            var mission = Connection.GetMissionDataFromResponse(data);
+            foreach(Location loc in mission.Values)
+            {
+                foreach(string hacker in loc.RecognizedHackers)
+                {
+                    if(hacker == UserID)
+                    {
+                        //This player is a hacker - mark him
+                        UserIsHacker = true;
+                        HackerStatusReceived = true;
+                    }
+                }
+            }
+            HackerStatusReceived = true; 
+        });
     }
 
     public void StartSpawning()
@@ -67,17 +111,31 @@ public class Game : MonoBehaviour {
         //This function is called by the Destroyer when a Bad Code BLock is missed. 
         CurrentLifeAmount -= 1;
         LifeLost();
-        if(CurrentLifeAmount == 0)
+        if(CurrentLifeAmount <= 0)
         {
-            //Game Lost - go to Loss Screen
-            UIManager.TargetGameState = UIManager.GameStates.LostGameScreen;
-            StopGame();
+            LoseGame();
         }
     }
 
     private void WinGame()
     {
         StopGame();
+    }
+
+    private void LoseGame()
+    {
+        UIManager.TargetGameState = UIManager.GameStates.LostGameScreen;
+        StopGame();
+        StartCoroutine("TrackHack");
+    }
+
+    public IEnumerator TrackHack()
+    {
+        yield return new WaitForSeconds(1);
+        LocationAction locAction = new LocationAction();
+        locAction.LocationID = LocationID;
+        locAction.UserID = UserID;
+        Connection.AttackLocation(locAction, null);
     }
 
     private void StopGame()

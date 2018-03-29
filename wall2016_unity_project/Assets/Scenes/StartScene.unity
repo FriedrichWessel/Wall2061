@@ -762,12 +762,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIManager: {fileID: 1924845418}
   Spawner: {fileID: 532052468}
+  Connection: {fileID: 929223466}
   IntroShowDuration: 8
   GameStartDelay: 3
   MaxLifeAmount: 5
   CurrentLifeAmount: 5
   HackGoalTime: 60
   CurrentHackTime: 0
+  UserID: 
+  UserIsHacker: 0
 --- !u!4 &244056674
 Transform:
   m_ObjectHideFlags: 0
@@ -2920,6 +2923,47 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 915718399}
+--- !u!1 &929223465
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 929223467}
+  - component: {fileID: 929223466}
+  m_Layer: 0
+  m_Name: ServerConnection
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &929223466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 929223465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed7b8eb889f7f443b9d24aac89aac6d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ServerIP: http://localhost:8080/
+--- !u!4 &929223467
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 929223465}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 806.4059, y: 297.61685, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &969164914
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,6 +24,8 @@ public class ServerConnection : MonoBehaviour
 			Debug.LogWarning(e.Message);
 			return null;
 		}
+		
+		
 	}
 
 	public IEnumerator LoadMission(string fileName, Action<ResponseData> responseCallback)

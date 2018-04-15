@@ -59,7 +59,7 @@ public class Game : MonoBehaviour {
 
     public IEnumerator InitializeGame()
     {
-        GetHackerStatusOfPlayer();
+        yield return GetHackerStatusOfPlayer();
         yield return new WaitForSeconds(IntroShowDuration);
         /*while (!HackerStatusReceived)
         {
@@ -92,7 +92,6 @@ public class Game : MonoBehaviour {
                     {
                         //This player is a hacker - mark him
                         UserIsHacker = true;
-                        HackerStatusReceived = true;
                     }
                 }
             }
@@ -135,7 +134,7 @@ public class Game : MonoBehaviour {
         LocationAction locAction = new LocationAction();
         locAction.LocationID = LocationID;
         locAction.UserID = UserID;
-        Connection.AttackLocation(locAction, null);
+        yield return Connection.AttackLocation(locAction, null);
     }
 
     private void StopGame()

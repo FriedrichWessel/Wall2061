@@ -10,7 +10,9 @@ public class MissionController : MonoBehaviour
 	public ServerConnection Connection;
 	public LocationView LocationViewPrefab;
 
-	public InputField MissionName; 
+	public InputField MissionName;
+	public InputField UserId;
+	public InputField LocationId;
 	
 	private WaitForSeconds Wait;
 
@@ -31,6 +33,19 @@ public class MissionController : MonoBehaviour
 	public void LoadMission()
 	{
 		StartCoroutine(Connection.LoadMission(MissionName.text, (d) => { }));
+	}
+
+	public void ClearUser()
+	{
+		var locationAction = new LocationAction();
+		locationAction.LocationID = LocationId.text;
+		locationAction.UserID = UserId.text;
+		StartCoroutine(Connection.FinishAttack(locationAction, (d) => { }));
+	}
+
+	public void SaveMission()
+	{
+		StartCoroutine(Connection.SaveMission(MissionName.text, (d) => { }));
 	}
 
 	private IEnumerator PollData()

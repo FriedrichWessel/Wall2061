@@ -28,7 +28,7 @@ func (location *Location) GetHackAttemptsForUserId(userId string) int {
 
 func (location *Location) StartAttack(userId string) (discovered bool) {
 	location.HackAttempts[userId]++
-	return location.HackAttempts[userId] >= 3
+	return location.HackAttempts[userId] >= 1
 }
 
 func (location *Location) FinishAttackSuccessfull(userId string) {

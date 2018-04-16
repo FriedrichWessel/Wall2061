@@ -7,6 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+	"strings"
 )
 
 type locationAction struct {
@@ -38,6 +40,7 @@ type Routes struct {
 type MissionControl struct {
 	routes        Routes
 	activeMission IMission
+	activeFile    string
 }
 
 func NewMissionControl(mission IMission) (control MissionControl) {
@@ -52,17 +55,27 @@ func NewMissionControl(mission IMission) (control MissionControl) {
 	return control
 }
 
-func (control MissionControl) StartMissionControl() {
-	fmt.Printf("Mission control running")
+func (control *MissionControl) StartMissionControl(port int, missionFile string) {
+
+	fmt.Printf("Mission control running on port %d loading file %s", port, missionFile)
+
+	control.loadMissionFile(missionFile)
+	http.HandleFunc("/", serve)
 	http.HandleFunc(control.routes.attackLocation, control.attackLocation)
 	http.HandleFunc(control.routes.finishAttack, control.finishAttackSuccessfull)
 	http.HandleFunc(control.routes.queryLocations, control.getRegisteredLocations)
 	http.HandleFunc(control.routes.saveMission, control.saveMission)
 	http.HandleFunc(control.routes.loadMission, control.loadMission)
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":"+strconv.Itoa(port), nil)
 	if err != nil {
 		log.Fatal("Error on listen&Server", err)
 	}
+}
+
+func serve(response http.ResponseWriter, request *http.Request) {
+	path := request.URL.Path[1:]
+	fmt.Println("Serving path: " + path + "\n")
+	http.ServeFile(response, request, path)
 }
 
 func (control *MissionControl) activateMission(mission IMission) {
@@ -80,6 +93,7 @@ func (control *MissionControl) attackLocation(writer http.ResponseWriter, reques
 	}
 	writeCurrentLocationListAsAnswer(writer, control.activeMission)
 	printMissionDump("AttackLocation", control.activeMission)
+	control.autoSaveMission()
 }
 
 func (control *MissionControl) finishAttackSuccessfull(writer http.ResponseWriter, request *http.Request) {
@@ -92,6 +106,7 @@ func (control *MissionControl) finishAttackSuccessfull(writer http.ResponseWrite
 	}
 	writeCurrentLocationListAsAnswer(writer, control.activeMission)
 	printMissionDump("FinishAttack", control.activeMission)
+	control.autoSaveMission()
 }
 
 func (control *MissionControl) getRegisteredLocations(writer http.ResponseWriter, request *http.Request) {
@@ -99,23 +114,43 @@ func (control *MissionControl) getRegisteredLocations(writer http.ResponseWriter
 	json.NewEncoder(writer).Encode(control.activeMission.GetLocations())
 }
 
+func (control MissionControl) autoSaveMission() {
+	control.saveMissionFile(control.activeFile)
+	fmt.Println("Mission file saved to", control.activeFile)
+}
+
 func (control *MissionControl) saveMission(writer http.ResponseWriter, request *http.Request) {
 	action := loadFileAction(request)
-	file, err := os.Create(action.FileName)
+	control.saveMissionFile(action.FileName)
+	writer.Write([]byte(fmt.Sprint("File %s saved successfull", action.FileName)))
+}
+
+func (control MissionControl) saveMissionFile(fileName string) {
+	file, err := os.Create(fileName)
 	if err != nil {
 		panic(err)
 	}
 	printMissionDump("Save Mission", control.activeMission)
-	control.activeMission.Save(action.FileName, file)
-	writer.Write([]byte(fmt.Sprint("File %s saved successfull", action.FileName)))
+	control.activeMission.Save(fileName, file)
+
 }
 
 func (control *MissionControl) loadMission(writer http.ResponseWriter, request *http.Request) {
 	action := loadFileAction(request)
-	fileReader := FileReader{}
-	control.activeMission = control.activeMission.Load(action.FileName, fileReader)
+	control.loadMissionFile(action.FileName)
 	writeCurrentLocationListAsAnswer(writer, control.activeMission)
 	printMissionDump("Load Mission", control.activeMission)
+}
+
+func (control *MissionControl) loadMissionFile(fileName string) {
+	fileReader := FileReader{}
+	control.activeFile = getAutoSaveFileName(fileName)
+	control.activeMission = control.activeMission.Load(fileName, fileReader)
+}
+
+func getAutoSaveFileName(fileName string) (autoSaveFile string) {
+	var fileWithoutEnding = strings.Replace(fileName, ".mf", "", 3)
+	return fileWithoutEnding + "_lastActive.mf"
 }
 
 func loadLocationAction(request *http.Request) locationAction {

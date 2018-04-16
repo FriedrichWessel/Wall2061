@@ -2950,7 +2950,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed7b8eb889f7f443b9d24aac89aac6d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ServerIP: http://localhost:8080/
+  RemoteServerIP: http://51.15.97.184:8080/
+  UseTestServer: 1
+  TestIP: http://localhost:8080/
 --- !u!4 &929223467
 Transform:
   m_ObjectHideFlags: 0

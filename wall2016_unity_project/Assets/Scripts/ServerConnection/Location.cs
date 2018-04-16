@@ -6,10 +6,11 @@ using UnityEngine;
 [Serializable]
 public class Location
 {
+	private const int AllowedHackAttempts = 1;
 	public string Id;
 	public Dictionary<string, int> HackAttempts = new Dictionary<string, int>();
-	public List<string> RecognizedHackers = new List<string>(); 
-	
+	public Dictionary<string, int> RecognizedHackers = new Dictionary<string, int>();
+
 	public int GetNumberOfDiscoveredHackers()
 	{
 		return GetDiscoveredHackersNames().Count;
@@ -20,19 +21,30 @@ public class Location
 		var names = GetDiscoveredHackersNames();
 		foreach (var name in names)
 		{
-			RecognizedHackers.Add(name);
-			HackAttempts.Remove(name);
+			if (!RecognizedHackers.ContainsKey(name.Key))
+			{
+				RecognizedHackers.Add(name.Key, name.Value);
+			}
+			RecognizedHackers[name.Key] = name.Value;
 		}
 	}
 
-	private List<string> GetDiscoveredHackersNames()
+	private Dictionary<string, int> GetDiscoveredHackersNames()
 	{
-		var result = new List<string>();
+		var result = new Dictionary<string, int>();
 		foreach (var attempt in HackAttempts)
 		{
-			if (attempt.Value >= 3)
+			if (attempt.Value >= AllowedHackAttempts)
 			{
-				result.Add(attempt.Key);
+				if (!RecognizedHackers.ContainsKey(attempt.Key))
+				{
+					result.Add(attempt.Key, attempt.Value);
+				}
+				else if (this.HackAttempts.ContainsKey(attempt.Key)
+				         && RecognizedHackers[attempt.Key] < this.HackAttempts[attempt.Key])
+				{
+					result.Add(attempt.Key, attempt.Value);
+				}
 			}
 		}
 		return result;
@@ -43,10 +55,7 @@ public class Location
 		var activeAttempts = new Dictionary<string, int>();
 		foreach (var hacker in l2.HackAttempts)
 		{
-			if (!RecognizedHackers.Contains(hacker.Key))
-			{
-				activeAttempts.Add(hacker.Key, hacker.Value);
-			}
+			activeAttempts.Add(hacker.Key, hacker.Value);
 		}
 		this.HackAttempts = activeAttempts;
 	}

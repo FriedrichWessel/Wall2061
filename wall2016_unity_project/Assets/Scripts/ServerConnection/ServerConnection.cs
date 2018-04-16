@@ -9,7 +9,24 @@ using UnityEngine.Networking;
 
 public class ServerConnection : MonoBehaviour
 {
-	public string ServerIP = "http://localhost:8080/";
+	public string ServerIP 
+	{
+		get
+		{
+//#if UNITY_EDITOR
+			if (UseTestServer)
+			{
+				return TestIP;
+			}
+//#endif
+			return RemoteServerIP;
+
+		}
+			
+	}
+	public string RemoteServerIP = "http://51.15.97.184:8080/";
+	public bool UseTestServer = false;
+	public string TestIP = "http://localhost:8080/";
 
 	public Mission GetMissionDataFromResponse(ResponseData responseData)
 	{
@@ -34,6 +51,14 @@ public class ServerConnection : MonoBehaviour
 		action.FileName = fileName;
 		var data = JsonUtility.ToJson(action);
 		yield return Post(this.ServerIP + "loadMission", data, responseCallback);
+	}
+	
+	public IEnumerator SaveMission(string fileName, Action<ResponseData> responseCallback)
+	{
+		var action = new FileAction();
+		action.FileName = fileName;
+		var data = JsonUtility.ToJson(action);
+		yield return Post(this.ServerIP + "saveMission", data, responseCallback);
 	}
 	
 	public IEnumerator AttackLocation(LocationAction testAction, Action<ResponseData> action)

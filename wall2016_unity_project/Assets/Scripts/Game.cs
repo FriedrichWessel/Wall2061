@@ -28,7 +28,7 @@ public class Game : MonoBehaviour
 	public string UserID;
 	public bool UserIsHacker = false;
 	private bool HackerStatusReceived = false;
-	private string LocationID = "Location1";
+	public string LocationID = "Location1";
 
 	// Use this for initialization
 	void Start()

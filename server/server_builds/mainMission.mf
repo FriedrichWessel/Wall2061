@@ -1,0 +1,16 @@
+{
+	"Locations": {
+		"CouncilOfAthens": {
+			"Id": "CouncilOfAthens",
+			"HackAttempts": {}
+		},
+		"NovaConsolidated": {
+			"Id": "NovaConsolidated",
+			"HackAttempts": {}
+		},
+		"WertheimEstate": {
+			"Id": "WertheimEstate",
+			"HackAttempts": {}
+		}
+	}
+}

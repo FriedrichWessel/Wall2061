@@ -30,12 +30,15 @@ public class Game : MonoBehaviour
 	private bool HackerStatusReceived = false;
 	public string LocationID = "Location1";
 
+	private void Awake()
+	{
+		UserID = LoadUserId();
+	}
+
 	// Use this for initialization
 	void Start()
 	{
 		CurrentLifeAmount = MaxLifeAmount;
-
-		UserID = LoadUserId();
 	}
 
 	private string LoadUserId()

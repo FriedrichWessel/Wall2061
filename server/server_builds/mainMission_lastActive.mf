@@ -1,0 +1,1 @@
+{"Locations":{"CouncilOfAthens":{"Id":"CouncilOfAthens","HackAttempts":{"27865208":1}},"NovaConsolidated":{"Id":"NovaConsolidated","HackAttempts":{}},"WertheimEstate":{"Id":"WertheimEstate","HackAttempts":{}}}}

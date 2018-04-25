@@ -24,39 +24,14 @@
   .webgl-content > * {
     flex-grow: 1;
   }
-</style>
-<script src="TemplateData/UnityProgress.js"></script>  
-<script src="Build/UnityLoader.js"></script>
-<script>
-  let btn;
-  let loadingBox = document.getElementById("loadingBox");
-  let gameContainer = document.getElementById("gameContainer");
-
-  function finished() {
-    loadingBox.hidden = true;
-    btn.hidden = false;
+  #fullscreen {
+    background: black;
+    color: #00FF00;
+    font-family: monospace;
+    font-size: 5vh;
+    border: 0;
   }
-
-  window.addEventListener('DOMContentLoaded', _ => {
-    btn = document.getElementById("fullscreen");
-    loadingBox = document.getElementById("loadingBox");
-    gameContainer = document.getElementById("gameContainer");
-    btn.onclick = _ => {
-      btn.hidden = true; 
-      gameContainer.hidden = false;
-          
-      gameInstance.SetFullscreen(1);
-      UnityProgressDone();
-    };  
-  }); 
-
-  const gameInstance = UnityLoader.instantiate("gameContainer", "Build/Kombinat.json", {
-    onProgress: UnityProgress,
-    Module: {
-      postRun: [finished]
-    }   
-  }); 
-</script>
+</style>
 <div class="webgl-content">
   <div id="gameContainer" hidden></div>
   <div id="loadingBox">
@@ -64,6 +39,32 @@
     <img id="spinner" src="TemplateData/LoadingScreen.gif" style="margin: 0 auto" />
 
   </div>
-  <button id="fullscreen" hidden>Fullscreen</button>
+  <button id="fullscreen" hidden>&lt;Fullscreen&gt;</button>
 </div>  
+<script src="TemplateData/UnityProgress.js"></script>  
+<script src="Build/UnityLoader.js"></script>
+<script>
+  const btn = document.getElementById("fullscreen");
+  const loadingBox = document.getElementById("loadingBox");
+  const gameContainer = document.getElementById("gameContainer");
 
+  function finished() {
+    loadingBox.hidden = true;
+    btn.hidden = false;
+  }
+
+  btn.onclick = _ => {
+    btn.hidden = true; 
+    gameContainer.hidden = false;
+    
+    gameInstance.SetFullscreen(1);
+    UnityProgressDone();
+  };
+
+  const gameInstance = UnityLoader.instantiate("gameContainer", "Build/Kombinat.json", {
+    onProgress: UnityProgress,
+    Module: {
+      postRun: [finished]
+    }
+  });
+</script>

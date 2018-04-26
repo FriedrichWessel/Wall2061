@@ -1,0 +1,13 @@
+{
+"companyName": "DefaultCompany",
+"productName": "The Wall 2061 Hacking Test",
+"dataUrl": "DeviceInfo.data.unityweb",
+"asmCodeUrl": "DeviceInfo.asm.code.unityweb",
+"asmMemoryUrl": "DeviceInfo.asm.memory.unityweb",
+"asmFrameworkUrl": "DeviceInfo.asm.framework.unityweb",
+"TOTAL_MEMORY": 268435456,
+"graphicsAPI": ["WebGL 2.0", "WebGL 1.0"],
+"webglContextAttributes": {"preserveDrawingBuffer": false},
+"splashScreenStyle": "Dark",
+"backgroundColor": "#231F00"
+}

@@ -19,12 +19,14 @@ public class Location
 	public void RecognizeDiscoveredHackers()
 	{
 		var names = GetDiscoveredHackersNames();
+		
 		foreach (var name in names)
 		{
 			if (!RecognizedHackers.ContainsKey(name.Key))
 			{
 				RecognizedHackers.Add(name.Key, name.Value);
 			}
+			
 			RecognizedHackers[name.Key] = name.Value;
 		}
 	}
@@ -56,6 +58,10 @@ public class Location
 		foreach (var hacker in l2.HackAttempts)
 		{
 			activeAttempts.Add(hacker.Key, hacker.Value);
+			if (hacker.Value == 0 && RecognizedHackers.ContainsKey(hacker.Key))
+			{
+				RecognizedHackers.Remove(hacker.Key);
+			}
 		}
 		this.HackAttempts = activeAttempts;
 	}

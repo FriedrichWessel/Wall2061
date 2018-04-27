@@ -10,7 +10,7 @@ public class LocationView : MonoBehaviour
 	[SerializeField] private Text ActiveHackAttemptsLabel;
 	[SerializeField] private Text LocationName;
 
-	private Location _connectedLocation;
+	public Location _connectedLocation { get; set; }
 
 	public void UpdateData(Location connectedLoc)
 	{

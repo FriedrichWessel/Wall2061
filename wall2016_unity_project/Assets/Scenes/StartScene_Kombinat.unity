@@ -2446,7 +2446,6 @@ GameObject:
   m_Component:
   - component: {fileID: 756278370}
   - component: {fileID: 756278372}
-  - component: {fileID: 756278371}
   m_Layer: 5
   m_Name: HackProgress
   m_TagString: Untagged
@@ -2479,21 +2478,6 @@ RectTransform:
   m_AnchoredPosition: {x: 22, y: -46}
   m_SizeDelta: {x: 500, y: 40}
   m_Pivot: {x: 0, y: 1}
---- !u!111 &756278371
-Animation:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 756278369}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 529ca48df3f98134c97cc7b4f1278620, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 529ca48df3f98134c97cc7b4f1278620, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 0
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!114 &756278372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2505,8 +2489,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30fded98a6577ec4996c3c1a63fd31d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  FillAnimation: {fileID: 756278371}
   TargetFillState: 1
+  Progress0: {fileID: 1981002608}
+  Progress1: {fileID: 1082520651}
+  Progress2: {fileID: 1649813493}
+  Progress3: {fileID: 714570445}
+  Progress4: {fileID: 1288468150}
 --- !u!1 &759741519
 GameObject:
   m_ObjectHideFlags: 0

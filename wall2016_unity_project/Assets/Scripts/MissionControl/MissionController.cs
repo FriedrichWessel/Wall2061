@@ -40,6 +40,13 @@ public class MissionController : MonoBehaviour
 		var locationAction = new LocationAction();
 		locationAction.LocationID = LocationId.text;
 		locationAction.UserID = UserId.text;
+		/*foreach (var locationView in LocationViews)
+		{
+			if (locationView.Key == LocationId.text)
+			{
+				locationView.Value._connectedLocation.RecognizedHackers.Remove(UserId.text);
+			}
+		}*/
 		StartCoroutine(Connection.FinishAttack(locationAction, (d) => { }));
 	}
 

@@ -5,12 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/MissionControl.unity
     guid: 541237fee15a14f578f4b338e2b6a1b1
   - enabled: 0
     path: Assets/Scenes/StartScene_Kombinat.unity
     guid: 51b6a3acc589d6c47a27c82f5393f1ea
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/StartScene_DeviceInfo.unity
     guid: 510c95c89612945d495645aaec0d89da
+  - enabled: 0
+    path: Assets/Scenes/StartScene_Nova_Neu.unity
+    guid: 7f2cb0bd7e26f4a44b6765b4c4ec25f2
+  - enabled: 0
+    path: Assets/Scenes/StartScene_Wertheim_Neu.unity
+    guid: abe701910fccf4a7fb47218733447162

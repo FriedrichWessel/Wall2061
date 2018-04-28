@@ -60,7 +60,9 @@ func (control *MissionControl) StartMissionControl(port int, missionFile string)
 	fmt.Printf("Mission control running on port %d loading file %s", port, missionFile)
 
 	control.loadMissionFile(missionFile)
-	http.HandleFunc("/", serve)
+	http.HandleFunc("/Kombinat/", serve)
+	http.HandleFunc("/Nova/", serve)
+	http.HandleFunc("/Wertheim/", serve)
 	http.HandleFunc(control.routes.attackLocation, control.attackLocation)
 	http.HandleFunc(control.routes.finishAttack, control.finishAttackSuccessfull)
 	http.HandleFunc(control.routes.queryLocations, control.getRegisteredLocations)
@@ -128,7 +130,9 @@ func (control *MissionControl) saveMission(writer http.ResponseWriter, request *
 func (control MissionControl) saveMissionFile(fileName string) {
 	file, err := os.Create(fileName)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		println("Could not save mission file")
+		return
 	}
 	printMissionDump("Save Mission", control.activeMission)
 	control.activeMission.Save(fileName, file)
@@ -159,7 +163,9 @@ func loadLocationAction(request *http.Request) locationAction {
 	var action locationAction
 	err := decoder.Decode(&action)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		println("Could not load locationAction")
+		return action
 	}
 	defer request.Body.Close()
 	return action
@@ -170,7 +176,9 @@ func loadFileAction(request *http.Request) (result fileAction) {
 	var action fileAction
 	err := decoder.Decode(&action)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		println("could not load file action was not decodeable")
+		return action
 	}
 	defer request.Body.Close()
 	return action

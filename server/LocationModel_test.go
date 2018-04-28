@@ -29,14 +29,9 @@ func TestGetAttemptsForUserShouldReturnZeroOnNonRegisteredUser(t *testing.T) {
 
 func TestStartAttackShouldBeDeclinedForKnownHackers(t *testing.T) {
 	testLocation := NewLocation("T1")
-	testLocation.StartAttack("User1")
 	discovered := testLocation.StartAttack("User1")
-	if discovered {
-		t.Errorf("Hacker was discovered to early")
-	}
-	discovered = testLocation.StartAttack("User1")
 	if !discovered {
-		t.Errorf("Hacker should be discovererd after 3rd approach")
+		t.Errorf("Hacker was not discovered to early")
 	}
 }
 func TestStartAttackShouldNotIncreaseHackAttemptsForOtherUsers(t *testing.T) {

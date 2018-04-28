@@ -20,7 +20,9 @@ func (user UserModel) hackLocation(location ILocation) {
 func (user UserModel) marshal() (jsonUser []byte) {
 	jsonUser, err := json.Marshal(user)
 	if err != nil {
-		panic("Usermodel cannot be serialized.")
+		println("Could not serialize user")
+		return jsonUser
+		//panic("Usermodel cannot be serialized.")
 	}
 	return jsonUser
 }

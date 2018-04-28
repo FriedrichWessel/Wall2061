@@ -1,1 +1,1 @@
-{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"54008419":0,"User1":0}},"Location2":{"Id":"Location2","HackAttempts":{}}}}
+{"Locations":{"Location1":{"Id":"Location1","HackAttempts":{"User1":1}},"Location2":{"Id":"Location2","HackAttempts":{}}}}

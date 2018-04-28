@@ -61,13 +61,18 @@ func (mission Mission) Save(fileName string, fileWriter io.Writer) {
 func (mission Mission) Load(fileName string, fileReader IFileReader) Mission {
 	content, fErr := fileReader.ReadFile(fileName)
 	if fErr != nil {
-		panic(fErr)
+		//panic(fErr)
+		println("could not load mission file")
+		return mission
 	}
 	newMission := NewMission()
 	err := json.Unmarshal(content, &newMission)
 	if err != nil {
-		panic(err)
+		//panic(err)
+		println("could not unmarhal mission file")
+		return mission
 	}
+
 	return newMission
 }
 
